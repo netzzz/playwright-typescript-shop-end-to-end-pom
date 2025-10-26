@@ -1,0 +1,16 @@
+{
+  "name": "playwright-shop-end-to-end-pom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.1",
+    "typescript": "^5.9.3"
+  }
+}
