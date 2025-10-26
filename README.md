@@ -24,7 +24,7 @@ src/
  ┃ ┣ loginData.ts          # Stores login credentials
  ┃ ┗ shopData.ts           # Contains product data
 tests/
- ┗ shopHappyPath.spec.ts    # The main test case
+ ┗ shopTests.spec.ts    # The main test case
 ```
 
 ---
