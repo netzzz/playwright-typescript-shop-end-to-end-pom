@@ -78,6 +78,15 @@ To validate that a user can:
 
 ---
 
+## Expected Result
+
+At the end of the test:
+- The order is successfully placed.  
+- The correct order ID appears in the **Order Details** page.  
+- No errors or failed steps occur.
+
+---
+
 ## Running the Test
 
 1) Clone this repository
@@ -96,11 +105,4 @@ For other ways to run tests you can check Playwright Documentation - https://pla
 - Credentials and product data are stored in separate data files under `/data` for easier maintenance.  
 - The test ensures **data reusability** and **readability** via modular Page Object methods.
 
----
 
-## Expected Result
-
-At the end of the test:
-- The order is successfully placed.  
-- The correct order ID appears in the **Order Details** page.  
-- No errors or failed steps occur.
