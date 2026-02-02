@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
-export default class CheckoutCompletePage{
+export default class CheckoutCompletePage {
     private readonly page: Page;
 
-    constructor(page: Page){
+    constructor(page: Page) {
         this.page = page;
     }
 
@@ -12,55 +12,27 @@ export default class CheckoutCompletePage{
 
     orderConfirmationMessage = () => this.page.getByText("Thankyou for the order.");
     ordersPageLink = () => this.page.getByRole('button', { name: /ORDERS/i });
-    
+
     // Methods
 
-    public async checkIfOrderConfirmationMessageIsVisible(){
-        try{
-            await this.isOrderConfirmationMessageVisible();
-        }
-        catch(error){
-            console.error(`Error verifying order confirmation message: ${error}`);
-            throw error;
-        }   
-    }
-
-    private async isOrderConfirmationMessageVisible(){
+    public async checkIfOrderConfirmationMessageIsVisible() {
         await expect(this.orderConfirmationMessage()).toBeVisible();
     }
 
-    public async getOrderId(): Promise<string>{
-        try{
-            let orderId: string = await this.findOrderIdOnPage();
-            return orderId;
+    public async getOrderId(): Promise<string> {
+        const element = this.page.getByText(/[a-z0-9]{24}/);
+        const fullText = await element.textContent();
+
+        if (!fullText) {
+            throw new Error('Order ID not found on page');
         }
-        catch(error){
-            console.error(`Error retrieving order ID from page: ${error}`);
-            throw error;
-        }
+
+        // Extract the 24-character order ID from text like "| 6789abc..."
+        const match = fullText.match(/[a-z0-9]{24}/);
+        return match ? match[0] : '';
     }
 
-    private async findOrderIdOnPage(): Promise<string>{
-        let orderIdFromPage : string|null= await this.page.getByText(/[a-z0-9]{24}/).textContent();
-        let orderId : string = '';
-
-        if(orderIdFromPage != null){
-            orderId = orderIdFromPage.slice(2,-2);
-        }
-        return orderId;
-    }
-
-    public async goToOrdersPage(){
-        try{
-            await this.clickOnOrdersPageLink();
-        }
-        catch(error){
-            console.error(`Error navigating to orders page: ${error}`);
-            throw error;
-        }
-    }
-
-    private async clickOnOrdersPageLink(){
+    public async goToOrdersPage() {
         await this.ordersPageLink().click();
     }
 }

@@ -3,10 +3,10 @@ import { loginCredentials } from '@data/loginData';
 import { shopData } from '@data/shopData';
 
 
-test('Shop Happy Path End to End Test', 
-  async ({ loginPage, shopPage, cartPage, checkoutPage, checkoutCompletePage, 
-    createdOrdersPage, orderDetailsPage}) =>{
-  const productName : string = shopData.products.productName;
+test('Shop Happy Path End to End Test',
+  async ({ loginPage, shopPage, cartPage, checkoutPage, checkoutCompletePage,
+    createdOrdersPage, orderDetailsPage }) => {
+  const productName = shopData.products.productName;
 
   await loginPage.goTo();
   await loginPage.enterEmail(loginCredentials.validUser.email);
@@ -23,18 +23,18 @@ test('Shop Happy Path End to End Test',
   await cartPage.goToCheckout();
 
   await checkoutPage.selectCountryInput();
-  await checkoutPage.typeOnKeyboard("A");
-  await checkoutPage.waitForCountryButtonToLoad(/afghanistan/i);
-  await checkoutPage.selectCountry(/afghanistan/i);
+  await checkoutPage.typeOnKeyboard(shopData.checkout.country.searchText);
+  await checkoutPage.waitForCountryButtonToLoad(shopData.checkout.country.name);
+  await checkoutPage.selectCountry(shopData.checkout.country.name);
   await checkoutPage.checkIfLabelIsVisible(loginCredentials.validUser.email);
-  await checkoutPage.enterCvvCode("251");
-  await checkoutPage.enterNameOnCard("Nemanja Stevanovic");
+  await checkoutPage.enterCvvCode(shopData.checkout.payment.cvvCode);
+  await checkoutPage.enterNameOnCard(shopData.checkout.payment.nameOnCard);
   await checkoutPage.placeOrder();
 
   await checkoutCompletePage.checkIfOrderConfirmationMessageIsVisible();
-  let orderId : string = await checkoutCompletePage.getOrderId();
+  const orderId = await checkoutCompletePage.getOrderId();
   await checkoutCompletePage.goToOrdersPage();
-  
+
   await createdOrdersPage.waitForOrderInOrdersTable(orderId);
   await createdOrdersPage.goToOrderDetails(orderId);
 
